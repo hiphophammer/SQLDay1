@@ -1,3 +1,6 @@
+-- Name: Jeongwook Oh
+-- Date: Feb. 14, 2023
+
 -- Using AdventureWorks Database
 USE AdventureWorks2019
 GO
