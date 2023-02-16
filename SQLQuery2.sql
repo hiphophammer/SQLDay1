@@ -151,15 +151,5 @@ ORDER BY CustomerName
 --23.  List all of the possible ways that suppliers can ship their products. Display the results as below
 --    Supplier Company Name                Shipping Company Name
 --    ---------------------------------            ----------------------------------
-
---24.  Display the products order each day. Show Order date and Product Name.
-
---25.  Displays pairs of employees who have the same job title.
-
---26.  Display all the Managers who have more than 2 employees reporting to them.
-
---27.  Display the customers and suppliers by city. The results should have the following columns
---City
---Name
---Contact Name,
---Type (Customer or Supplier)
+SELECT [Supplier Company Name], [Shipping Company Name]
+FROM (SELECT DISTINCT CompanyName AS [Shipping Company Name] FROM Shippers) AS ship CROSS JOIN (SELECT DISTINCT CompanyName AS [Supplier Company Name] FROM Suppliers) AS sup
