@@ -102,25 +102,54 @@ FROM Orders
 WHERE OrderDate > DATEADD(year, -25, GETDATE())
 
 --15.  List top 5 locations (Zip Code) where the products sold most.
+SELECT TOP 5 o.OrderID, od.Quantity, o.ShipPostalCode
+FROM Orders o INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
+ORDER BY od.Quantity DESC
 
 --16.  List top 5 locations (Zip Code) where the products sold most in last 25 years.
+SELECT TOP 5 o.OrderID, od.Quantity, o.ShipPostalCode, o.OrderDate
+FROM Orders o INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
+WHERE o.OrderDate > DATEADD(year, -25, GETDATE())
+ORDER BY od.Quantity DESC
 
---17.   List all city names and number of customers in that city.     
+--17.   List all city names and number of customers in that city.
+SELECT ShipCity AS City, COUNT(ShipCity) AS NumberOfOrders
+FROM Orders
+GROUP BY ShipCity
 
 --18.  List city names which have more than 2 customers, and number of customers in that city
+SELECT ShipCity AS City, COUNT(ShipCity) AS NumberOfOrders
+FROM Orders
+GROUP BY ShipCity
+HAVING COUNT(ShipCity) > 2
 
 --19.  List the names of customers who placed orders after 1/1/98 with order date.
+SELECT DISTINCT ShipName
+FROM Orders
+WHERE OrderDate > '1998-01-01'
+ORDER BY ShipName ASC
 
 --20.  List the names of all customers with most recent order dates
+SELECT DISTINCT ShipName AS CustomerName, MAX(OrderDate) AS MostRecentOrder
+FROM Orders
+GROUP BY ShipName
+ORDER BY CustomerName
 
 --21.  Display the names of all customers  along with the  count of products they bought
+SELECT ShipName AS CustomerName, SUM(Quantity) AS NumberOfProductsPurchased
+FROM Orders o INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
+GROUP BY ShipName
+ORDER BY Customername
 
 --22.  Display the customer ids who bought more than 100 Products with count of products.
+SELECT ShipName AS CustomerName, SUM(Quantity) AS NumberOfProductsPurchased
+FROM Orders o INNER JOIN [Order Details] od ON o.OrderID = od.OrderID
+GROUP BY ShipName
+HAVING SUM(Quantity) > 100
+ORDER BY CustomerName
 
 --23.  List all of the possible ways that suppliers can ship their products. Display the results as below
-
 --    Supplier Company Name                Shipping Company Name
-
 --    ---------------------------------            ----------------------------------
 
 --24.  Display the products order each day. Show Order date and Product Name.
