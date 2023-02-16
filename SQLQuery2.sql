@@ -72,25 +72,34 @@ HAVING Shelf != 'N/A'
 --11.  List the members (rows) and average list price in the Production.Product table. This should be grouped independently over the Color and the Class column. Exclude the rows where Color or Class are null.
 --    Color                        Class              TheCount          AvgPrice
 --    -------------- - -----    -----------            ---------------------
+SELECT Color, Class, COUNT(Color) AS TheCount, AVG(ListPrice) AS AvgPrice
+FROM Production.Product
+GROUP BY Color, Class
+HAVING Color IS NOT NULL AND Class IS NOT NULL
+
 
 --Joins:
 --12.   Write a query that lists the country and province names from person. CountryRegion and person. StateProvince tables. Join them and produce a result set similar to the following.
-
 --    Country                        Province
-
 --    ---------                          ----------------------
+SELECT cr.Name AS Country, sp.Name AS Province
+FROM Person.CountryRegion AS cr INNER JOIN Person.StateProvince AS sp ON cr.CountryRegionCode = sp.CountryRegionCode
 
 --13.  Write a query that lists the country and province names from person. CountryRegion and person. StateProvince tables and list the countries filter them by Germany and Canada. Join them and produce a result set similar to the following.
-
- 
-
 --    Country                        Province
-
 --    ---------                          ----------------------
+SELECT cr.Name AS Country, sp.Name AS Province
+FROM Person.CountryRegion AS cr INNER JOIN Person.StateProvince AS sp ON cr.CountryRegionCode = sp.CountryRegionCode
+WHERE cr.Name IN ('Germany', 'Canada')
 
 -- Using Northwnd Database: (Use aliases for all the Joins)
+USE Northwind
+GO
 
 --14.  List all Products that has been sold at least once in last 25 years.
+SELECT OrderID, OrderDate
+FROM Orders
+WHERE OrderDate > DATEADD(year, -25, GETDATE())
 
 --15.  List top 5 locations (Zip Code) where the products sold most.
 
